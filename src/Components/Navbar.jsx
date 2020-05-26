@@ -4,10 +4,10 @@ import { useSelector, useDispatch, connect } from "react-redux";
 import Cookies from "js-cookie";
 
 
-import { clearUser } from "../Redux/User";
+import { clearUser } from "../Redux";
 
 const Navbar = (props) => { 
-  const hasUser = useSelector((state) => state.hasUser)
+  const hasUser = useSelector((state) => state.user.hasUser)
   const dispatch = useDispatch();
   console.log("in navbar");
 
@@ -33,7 +33,7 @@ const Navbar = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    hasUser: state.hasUser
+    hasUser: state.user.hasUser
   };
 };
 

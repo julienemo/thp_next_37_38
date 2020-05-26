@@ -1,1 +1,0 @@
-export {setUser, clearUser} from "./UserActions"

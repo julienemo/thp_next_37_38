@@ -8,13 +8,13 @@ import Register from "./Pages/Register";
 import Connection from "./Pages/Connection";
 import Profile from "./Pages/Profile";
 
-import UserStore from "./Redux/User/Store"
+import Store from "./Redux/Store"
 
 const App = () => {
   console.log("in app");
   return (
     <>
-      <Provider store={UserStore}>
+      <Provider store={Store}>
         <Router>
           <Navbar />
           <Switch>
