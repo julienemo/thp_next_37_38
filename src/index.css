@@ -29,15 +29,24 @@ nav {
   margin-left: 3rem;
 }
 
-a {
+.nav-link a {
   text-decoration: none;
 }
 
-a:hover {
-  cursor: pointer;
-  text-decoration: underline;
+nav button {
+  border: 0;
+  background-color: white;
+  font-size: 1rem;
 }
 
+button:hover {
+  cursor: pointer;
+}
+
+a:hover {
+  text-decoration: none;
+  outline: none;
+}
 a:visited {
   color: black;
 }
