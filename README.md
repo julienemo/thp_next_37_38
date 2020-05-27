@@ -22,3 +22,7 @@ Profile: can see profile or modify, sees update info right away
 1. sign in : what happens if the logins are not good ?
 2. private routes
 3. for profile update, if one case is empty, don't send this case
+
+#### refacto
+1. token and current user ID in cookie, no redux
+2. maybe delete the loading etc stuff ??

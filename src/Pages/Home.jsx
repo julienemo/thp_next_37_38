@@ -6,6 +6,8 @@ import Cookies from "js-cookie";
 import Post from "../Components/Post"
 
 import { fetchHomePost } from "../Redux"
+import NewPost from "../Components/NewPost"
+
 
 const Home = () => { 
   console.log('in home')
@@ -13,13 +15,16 @@ const Home = () => {
   const error = useSelector((state) => state.HomePost.error)
   const loading = useSelector((state) => state.HomePost.loading)
   const dispatch = useDispatch();
-  
+  const hasUser = useSelector((state) => state.user.hasUser)
+  console.log(list)
+
   !list && dispatch(fetchHomePost())
 
   return (<div className="page">
     <p>Welcome to <strong>Julie Social Network</strong>.
     This website is a training to Redux and React.
     We use auth and routing to create a small social media website.</p>
+    {hasUser && <NewPost />}
     {loading &&  <div><p>Loading...</p></div>}
     {list && <div>{list.map(el => (<Post key={ShortID.generate()} post={el}/>))}</div>}
     {error && <div className="error">{error}</div>}

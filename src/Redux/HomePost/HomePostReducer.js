@@ -1,4 +1,4 @@
-import { MAKE_REQUEST_HOME_POST, REQUEST_SUCCESS_HOME_POST, REQUEST_FAIL_HOME_POST } from "./HomePostTypes";
+import { MAKE_REQUEST_HOME_POST, REQUEST_SUCCESS_HOME_POST, REQUEST_FAIL_HOME_POST, CHANGE_LIST } from "./HomePostTypes";
 
 const initial = {
   loading: false,
@@ -25,6 +25,12 @@ const HomePostReducer = (state = initial, action) => {
         list: null,
         loading: false,
         error: action.error,
+      }
+    case CHANGE_LIST:
+      return {
+        list: state.list.push(action.newEl),
+        loading: false,
+        error: null,
       }
     default:
       return state;

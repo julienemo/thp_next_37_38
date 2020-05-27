@@ -1,4 +1,4 @@
-import { MAKE_REQUEST_HOME_POST, REQUEST_SUCCESS_HOME_POST, REQUEST_FAIL_HOME_POST } from "./HomePostTypes";
+import { MAKE_REQUEST_HOME_POST, REQUEST_SUCCESS_HOME_POST, REQUEST_FAIL_HOME_POST, CHANGE_LIST } from "./HomePostTypes";
 
 export const makeRequestHomePost = () => { 
   console.log('making home post request')
@@ -12,6 +12,14 @@ export const requestSuccessHomePost = (list) => {
   return {
     type: REQUEST_SUCCESS_HOME_POST,
     list
+  }
+}
+
+export const changeList = (newEl) => { 
+  console.log("in change list");
+  return {
+    type: CHANGE_LIST,
+    newEl,
   }
 }
 
@@ -29,7 +37,7 @@ export const fetchHomePost = () => {
     console.log('in dispatch')
     dispatch(makeRequestHomePost());
     fetch(
-      `https://api-minireseausocial.mathis-dyk.fr/posts`
+      `https://api-minireseausocial.mathis-dyk.fr/posts?_sort=created_at:desc`
     )
       .then((response) => response.json())
       .then((response) => {
