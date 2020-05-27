@@ -1,28 +1,35 @@
 import { SET_USER, CLEAR_USER } from "./UserTypes";
 import Cookies from "js-cookie";
 
+const cookie =
+  Cookies.get("social_network_token_user") !== undefined
+    ? JSON.parse(Cookies.get("social_network_token_user"))
+    : { token: null, id: null };
+
 const initial = {
-  token: Cookies.get("social_network_token"),
-  currentUser: Cookies.get("current_user_id"),
+  token: cookie.token,
+  currentUser: cookie.id,
 };
 
-initial.hasUser = initial.token?true:false
+initial.hasUser = initial.token ? true : false;
 
-const UserReducer = (state = initial, action) => { 
-  switch (action.type) { 
+const UserReducer = (state = initial, action) => {
+  switch (action.type) {
     case SET_USER:
       return {
         token: action.token,
+        currentUser: action.id,
         hasUser: true,
-      }
+      };
     case CLEAR_USER:
       return {
         token: null,
-        hasUser: false
-      }
+        currentUser: null,
+        hasUser: false,
+      };
     default:
-      return initial
+      return initial;
   }
-}
+};
 
 export default UserReducer;

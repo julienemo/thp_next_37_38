@@ -22,7 +22,6 @@ const Post = (post) => {
     const date = Moment(objectPost.created_at).format("YYYY-MM-DD")
     const postOwner = objectPost.user?objectPost.user.id: null; 
     const isMine = postOwner == userId;
-    console.log(isMine)
     return (
       <div className="post-preview">
         {hasUser && (
@@ -32,22 +31,29 @@ const Post = (post) => {
                 <Link to={`/user/${objectPost.user.id}`}>
                   <strong>{objectPost.user.username}</strong>
                 </Link>{" "}
-                  said on {date}:
+                said on {date}:
               </p>
             )}
             <p>
               {objectPost.like ? objectPost.like : "0"}
               <img src={toLike} alt="a button to like the post" />
             </p>
-          </div>)}
-        
-        {isMine && (
-          <div className="post-detail">
-            <p>
-              <button onClick={() => { deletePost(objectPost.id)}}>Delete</button>
-            </p>
-          </div>)}
+          </div>
+        )}
         <p>{objectPost.text}</p>
+        {hasUser && isMine && (
+          <div className="post-btn">
+            <p>
+              <button
+                onClick={() => {
+                  deletePost(objectPost.id);
+                }}
+              >
+                Delete
+              </button>
+            </p>
+          </div>
+        )}
       </div>
     );
   }

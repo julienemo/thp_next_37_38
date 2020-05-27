@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUser } from "../Redux";
 import { Form, Input, Button } from "antd";
-import Cookies from "js-cookie";
+
+import { GoToProfile } from "../Routes/Redirect";
+import { StoreUser } from "../Tools";
+import { LetUserIn } from "../API";
 
 const layout = {
   labelCol: {
@@ -18,35 +24,32 @@ const tailLayout = {
 };
 
 const Register = () => {
-  console.log("in Register");
-  
+  const [error, setError] = useState(null);
+  const history = useHistory();
+  const dispatch = useDispatch();
+
   const onFinish = (values) => {
-    console.log("submit Success:", values);
-    fetch("https://api-minireseausocial.mathis-dyk.fr/auth/local/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(values),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("fetch Success:", data);
-        Cookies.set("social_network_token", data.jwt);
-        Cookies.set("current_user_id", data.user.id);
-        window.location.href = "/profile";
+    LetUserIn("REGISTER", values)
+      .then((response) => {
+        if (response.error) {
+          setError(response.message[0].messages[0].message);
+        } else {
+          return response;
+        }
+      })
+      .then((response) => {
+        dispatch(setUser(response.jwt, response.user.id));
+        StoreUser(response);
+        GoToProfile(history);
       })
       .catch((error) => {
-        console.error("fetch Error:", error);
-        window.location.reload();
+        console.log(error);
       });
-  };
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
   };
 
   return (
     <div className="page">
+      {error && <p className="error_message">{error}</p>}
       <Form
         {...layout}
         name="basic"
@@ -54,7 +57,6 @@ const Register = () => {
           remember: true,
         }}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
       >
         <Form.Item
           label="Username"

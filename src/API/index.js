@@ -1,26 +1,65 @@
-import axios from "axios";
-
-const API = axios.create({
-  baseURL: "https://api-minireseausocial.mathis-dyk.fr",
-});
-
-/* 
-API.interceptors.request.use(({ headers, ...config }) => ({
-  ...config,
-  headers: {
-    ...headers,
-    "Content-Type": "application/json",
-    //Authorization: `Bearer ${headers.Authorization}`,
-  },
-}));
- */
-
-export default class APIManager {
-  static async registerUser(email, username, password) {
-    const res = await API.post("/auth/local/register", { username, email, password })
-      .then((response) => response.json())
-      .then((response) => console.log(response))
-      .catch((error) => { console.log(error)});
-    return res.data;
+export const LetUserIn = (typeOfAction, values) => {
+  let url;
+  switch (typeOfAction) {
+    case "REGISTER":
+      url = "https://api-minireseausocial.mathis-dyk.fr/auth/local/register";
+      break;
+    case "CONNECT":
+      url = "https://api-minireseausocial.mathis-dyk.fr/auth/local";
+      break;
+    default:
+      url = "https://api-minireseausocial.mathis-dyk.fr/auth/local";
   }
-}
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(values),
+  }).then((response) => response.json());
+};
+
+export const GetPostList = (id = null) => {
+  console.log("in get list");
+  const baseURL =
+    "https://api-minireseausocial.mathis-dyk.fr/posts?_limit=20&_sort=created_at:desc";
+  const userPart = id ? `&user.id=${id}` : "";
+  const finalURL = baseURL + userPart;
+  return fetch(finalURL).then((response) => response.json());
+};
+
+export const GetProfile = (id, token) => {
+  const URL = "https://api-minireseausocial.mathis-dyk.fr/users";
+  return fetch(`${URL}/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((response) => response.json());
+};
+
+export const ModifyProfile = (id, token, values) => {
+  const baseURL = "https://api-minireseausocial.mathis-dyk.fr/users";
+  return fetch(`${baseURL}/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(values),
+  }).then((response) => response.json());
+};
+
+export const CreatePost = (id, token, values) => {
+  console.log("in create post");
+  const baseURL = "https://api-minireseausocial.mathis-dyk.fr/posts";
+  return fetch(baseURL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ ...values, user: id }),
+  }).then((response) => response.json());
+};

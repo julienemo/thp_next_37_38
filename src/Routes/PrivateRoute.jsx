@@ -3,14 +3,12 @@ import { Redirect, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  console.log('in private route')
   const hasUser = useSelector((state) => state.user.hasUser);
-
   return (
     <Route
       {...rest}
       render={(props) =>
-        hasUser? (
+        hasUser ? (
           <Component {...props} />
         ) : (
           <Redirect to={{ pathname: "/login" }} />
@@ -18,6 +16,6 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
       }
     />
   );
-}
+};
 
 export default PrivateRoute;

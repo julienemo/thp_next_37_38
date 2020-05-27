@@ -39,9 +39,12 @@ nav button {
   font-size: 1rem;
 }
 
-a > button:hover {
+a > button:hover,
+a > button:focus,
+a > button:active {
   cursor: pointer;
   text-decoration: underline;
+  border: 0;
 }
 
 a {
@@ -79,14 +82,24 @@ a:visited {
   justify-content: space-between;
 }
 
+.post-btn {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-end;
+}
+
 .like-btn {
   border: 0;
   background-color: white;
 }
 
 #newPost {
-  width: 100%;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-around;
+}
+
+.error_message {
+  color: rgb(148, 88, 88);
+  text-align: center;
 }

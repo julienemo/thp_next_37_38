@@ -1,63 +1,65 @@
-import React from "react";
-import { Form, Input, Button } from "antd";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { changeList} from "../Redux"
+import { Form, Input, Button } from "antd";
 
-const NewPost = () => { 
-  console.log('in new post');
-  const userId = useSelector((state) => state.user.currentUser)
-  const token = useSelector((state) => state.user.token)
+import { changeList } from "../Redux";
+import { CreatePost } from "../API";
+
+const NewPost = () => {
+  console.log("in new post");
+  const [error, setError] = useState(null);
+  const userId = useSelector((state) => state.user.currentUser);
+  const token = useSelector((state) => state.user.token);
 
   const dispatch = useDispatch();
 
   const onFinish = (values) => {
-    console.log("submit Success:", values);
-    fetch("https://api-minireseausocial.mathis-dyk.fr/posts", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
-      },
-      body: JSON.stringify({ ...values, user: userId}),
-    })
-      .then((response) => response.json())
+    CreatePost(userId, token, values)
       .then((response) => {
-        console.log(response)
-        dispatch(changeList())
+        if (response.error) {
+          setError(response.message);
+        } else {
+          console.log(response);
+          dispatch(changeList(values));
+        }
       })
       .catch((error) => {
-        window.location.reload();
+        console.log(error);
+        setError(error);
       });
-  };
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
   };
 
   return (
-
+    <>
+      {error && <p className="error_message">{error}</p>}
       <Form
-      name="newPost"
-      className="post-preview" 
+        name="newPost"
+        className="post-preview"
         initialValues={{
           remember: true,
         }}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
       >
         <Form.Item
           name="text"
+          rules={[
+            {
+              required: true,
+              message: "Please do say something, I insist",
+            },
+          ]}
         >
-          <Input placeholder="Say something"/>
+          <Input placeholder="Say something" />
         </Form.Item>
 
-        <Form.Item >
+        <Form.Item>
           <Button type="primary" htmlType="submit">
             Let'em'all know
           </Button>
         </Form.Item>
       </Form>
+    </>
   );
-
-}
+};
 
 export default NewPost;

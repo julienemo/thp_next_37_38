@@ -1,6 +1,12 @@
-import React, { useEffect, useState} from "react";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUser } from "../Redux";
 import { Form, Input, Button } from "antd";
-import Cookies from "js-cookie";
+
+import { GoToProfile } from "../Routes/Redirect";
+import { StoreUser } from "../Tools";
+import { LetUserIn } from "../API";
 
 const layout = {
   labelCol: {
@@ -19,38 +25,32 @@ const tailLayout = {
 };
 
 const Connection = () => {
-  const [error, setError] = useState(null)
+  const [error, setError] = useState(null);
+  const history = useHistory();
+  const dispatch = useDispatch();
 
   const onFinish = (values) => {
-    fetch("https://api-minireseausocial.mathis-dyk.fr/auth/local", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(values),
-    })
-      .then((response) => response.json())
+    LetUserIn("CONNECT", values)
       .then((response) => {
         if (response.error) {
-          let error = response.message[0].messages[0].message
-          setError(error)
-        } else { 
-          Cookies.set("social_network_token", response.jwt);
-          Cookies.set("current_user_id", response.user.id);
-          window.location.href = "/profile";
+          setError(response.message[0].messages[0].message);
+        } else {
+          return response;
         }
       })
+      .then((response) => {
+        dispatch(setUser(response.jwt, response.user.id));
+        StoreUser(response);
+        GoToProfile(history);
+      })
       .catch((error) => {
-        setError(error)
+        console.log(error);
       });
-  };
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
   };
 
   return (
     <div className="page">
-      {error && <p>{error}</p>}
+      {error && <p className="error_message">{error}</p>}
       <Form
         {...layout}
         name="basic"
@@ -58,7 +58,6 @@ const Connection = () => {
           remember: true,
         }}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
       >
         <Form.Item
           name="identifier"

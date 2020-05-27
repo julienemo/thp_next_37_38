@@ -1,10 +1,10 @@
 import { SET_USER, CLEAR_USER} from "./UserTypes";
 
-export const setUser = (username, token) => { 
+export const setUser = (token, id) => { 
   return {
     type: SET_USER,
-    username,
     token,
+    id,
   }
 }
 
