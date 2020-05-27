@@ -31,13 +31,13 @@ export const requestFailHomePost = (error) => {
   }
 }
 
-export const fetchHomePost = () => {
+export const fetchHomePost = (link) => {
   console.log('in fetchHomePost')
   return (dispatch) => {
     console.log('in dispatch')
     dispatch(makeRequestHomePost());
     fetch(
-      `https://api-minireseausocial.mathis-dyk.fr/posts?_sort=created_at:desc`
+      link
     )
       .then((response) => response.json())
       .then((response) => {

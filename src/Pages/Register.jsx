@@ -33,6 +33,7 @@ const Register = () => {
       .then((data) => {
         console.log("fetch Success:", data);
         Cookies.set("social_network_token", data.jwt);
+        Cookies.set("current_user_id", data.user.id);
         window.location.href = "/profile";
       })
       .catch((error) => {

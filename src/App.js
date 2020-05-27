@@ -7,32 +7,34 @@ import Home from "./Pages/Home";
 import Register from "./Pages/Register";
 import Connection from "./Pages/Connection";
 import Profile from "./Pages/Profile";
+import Error from "./Pages/Error";
 
-import Store from "./Redux/Store"
+import Store from "./Redux/Store";
+
+import PrivateRoute from "./Routes/PrivateRoute";
+import PublicRoute from "./Routes/PublicRoute";
 
 const App = () => {
   console.log("in app");
+
   return (
     <>
       <Provider store={Store}>
         <Router>
           <Navbar />
           <Switch>
+            <PrivateRoute exact path="/user/:userSlug" component={Profile} />
+            <PrivateRoute exact path="/profile" component={Profile} />
+            <PublicRoute exact path="/register" component={Register} />
+            <PublicRoute exact path="/login" component={Connection} />
             <Router exact path="/">
               <Home />
             </Router>
-            <Route exact path="/register">
-              <Register />
-            </Route>
-            <Route exact path="/login">
-              <Connection />
-            </Route>
-            <Route exact path="/profile">
-              <Profile />
-            </Route>
+            <Router path="*">
+              <Error />
+            </Router>
           </Switch>
         </Router>
-        <p>This is the normal content</p>
       </Provider>
     </>
   );

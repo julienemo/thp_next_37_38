@@ -1,28 +1,14 @@
 import React from "react";
 import { Form, Input, Button } from "antd";
-import Cookies from "js-cookie";
 import { useSelector, useDispatch } from "react-redux";
 import { changeList} from "../Redux"
 
-const layout = {
-  labelCol: {
-    span: 8,
-  },
-  wrapperCol: {
-    span: 16,
-  },
-};
-const tailLayout = {
-  wrapperCol: {
-    offset: 8,
-    span: 16,
-  },
-};
-
 const NewPost = () => { 
   console.log('in new post');
+  const userId = useSelector((state) => state.user.currentUser)
+  const token = useSelector((state) => state.user.token)
+
   const dispatch = useDispatch();
-  const list = useSelector((state)=>state.HomePost.list)
 
   const onFinish = (values) => {
     console.log("submit Success:", values);
@@ -30,17 +16,16 @@ const NewPost = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzIsImlhdCI6MTU5MDUyOTM5NSwiZXhwIjoxNTkzMTIxMzk1fQ.ZnFhEiJmsoadmC7MCNyJsvofhyOiQm74u337IuGSNa0`
+        "Authorization": `Bearer ${token}`
       },
-      body: JSON.stringify({ ...values, user: 72 }),
+      body: JSON.stringify({ ...values, user: userId}),
     })
       .then((response) => response.json())
-      .then((data) => {
-        console.log("fetch Success:", data);
+      .then((response) => {
+        console.log(response)
         dispatch(changeList())
       })
       .catch((error) => {
-        console.error("fetch Error:", error);
         window.location.reload();
       });
   };
@@ -49,10 +34,10 @@ const NewPost = () => {
   };
 
   return (
-    <div className="page">
+
       <Form
-        {...layout}
-        name="basic"
+      name="newPost"
+      className="post-preview" 
         initialValues={{
           remember: true,
         }}
@@ -65,13 +50,12 @@ const NewPost = () => {
           <Input placeholder="Say something"/>
         </Form.Item>
 
-        <Form.Item {...tailLayout}>
+        <Form.Item >
           <Button type="primary" htmlType="submit">
             Let'em'all know
           </Button>
         </Form.Item>
       </Form>
-    </div>
   );
 
 }

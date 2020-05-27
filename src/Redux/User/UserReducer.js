@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 
 const initial = {
   token: Cookies.get("social_network_token"),
+  currentUser: Cookies.get("current_user_id"),
 };
 
 initial.hasUser = initial.token?true:false

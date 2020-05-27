@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState} from "react";
 import { Form, Input, Button } from "antd";
 import Cookies from "js-cookie";
 
@@ -19,10 +19,9 @@ const tailLayout = {
 };
 
 const Connection = () => {
-  console.log("in Connection");
+  const [error, setError] = useState(null)
 
   const onFinish = (values) => {
-    console.log("submit Success:", values);
     fetch("https://api-minireseausocial.mathis-dyk.fr/auth/local", {
       method: "POST",
       headers: {
@@ -31,16 +30,18 @@ const Connection = () => {
       body: JSON.stringify(values),
     })
       .then((response) => response.json())
-      .then((data) => {
-        console.log("fetch Success:", data);
-        console.log(data.jwt)
-        Cookies.set("social_network_token", data.jwt);
-        console.log(Cookies.get("social_network_token"))
-        window.location.href = "/profile";
+      .then((response) => {
+        if (response.error) {
+          let error = response.message[0].messages[0].message
+          setError(error)
+        } else { 
+          Cookies.set("social_network_token", response.jwt);
+          Cookies.set("current_user_id", response.user.id);
+          window.location.href = "/profile";
+        }
       })
       .catch((error) => {
-        console.error("fetch Error:", error);
-        window.location.reload();
+        setError(error)
       });
   };
   const onFinishFailed = (errorInfo) => {
@@ -49,6 +50,7 @@ const Connection = () => {
 
   return (
     <div className="page">
+      {error && <p>{error}</p>}
       <Form
         {...layout}
         name="basic"
