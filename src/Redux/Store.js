@@ -3,10 +3,12 @@ import thunkMiddleware from "redux-thunk";
 
 import UserReducer from "./User/UserReducer";
 import HomePostReducer from "./HomePost/HomePostReducer"
+import ProfileReducer from "./Profile/ProfileReducer"
 
 const rootReducer = combineReducers({
   user: UserReducer,
   HomePost: HomePostReducer,
+  profile: ProfileReducer,
 });
 
 

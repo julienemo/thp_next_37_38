@@ -33,7 +33,9 @@ const Connection = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log("fetch Success:", data);
+        console.log(data.jwt)
         Cookies.set("social_network_token", data.jwt);
+        console.log(Cookies.get("social_network_token"))
         window.location.href = "/profile";
       })
       .catch((error) => {

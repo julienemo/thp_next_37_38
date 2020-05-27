@@ -1,4 +1,4 @@
-import { SET_USER, CLEAR_USER, MODIFY_USER } from "./UserTypes";
+import { SET_USER, CLEAR_USER} from "./UserTypes";
 
 export const setUser = (username, token) => { 
   return {

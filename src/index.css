@@ -65,3 +65,14 @@ a:visited {
   border: solid black 0.1rem;
   border-radius: 0.3rem;
 }
+
+.post-detail {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+
+.like-btn {
+  border: 0;
+  background-color: white;
+}
