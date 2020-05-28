@@ -6,6 +6,7 @@ import ShortID from "shortid";
 import { Form, Input, Button } from "antd";
 
 import Post from "../Components/Post";
+
 import { GetPostList, GetProfile, ModifyProfile } from "../API";
 
 const layout = {
@@ -122,13 +123,7 @@ const Profile = () => {
           </Form.Item>
         )}
       </Form>
-      {list && (
-        <div>
-          {list.map((el) => (
-            <Post key={ShortID.generate()} post={el} />
-          ))}
-        </div>
-      )}
+      {list && list.map((el) => <Post key={ShortID.generate()} post={el} />)}
     </div>
   );
 };

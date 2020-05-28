@@ -74,6 +74,7 @@ a:visited {
   margin-top: 0.5rem;
   border: solid black 0.1rem;
   border-radius: 0.3rem;
+  width: 80%;
 }
 
 .post-detail {

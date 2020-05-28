@@ -19,46 +19,49 @@ const Navbar = () => {
   };
 
   return (
-    <nav>
-      <div className="nav-logo nav-link">
-        <Link to="/">
-          <p>Julie Social Network</p>
-        </Link>
-      </div>
-      <ul className="nav-link-zone">
-        <li className="nav-link">
+    <>
+      <nav>
+        <div className="nav-logo nav-link">
           <Link to="/">
-            <button>Home</button>
+            <p>Julie Social Network</p>
           </Link>
-        </li>
-        {hasUser && (
+        </div>
+        <ul className="nav-link-zone">
           <li className="nav-link">
-            <Link to="/profile">
-              <button>Profile</button>
+            <Link to="/">
+              <button>Home</button>
             </Link>
           </li>
-        )}
-        {!hasUser && (
-          <li className="nav-link">
-            <Link to="/register">
-              <button>Sign Up</button>
-            </Link>
-          </li>
-        )}
-        {!hasUser && (
-          <li className="nav-link">
-            <Link to="/login">
-              <button>Sign In</button>
-            </Link>
-          </li>
-        )}
-        {hasUser && (
-          <li className="nav-link">
-            <button onClick={signOut}>Sign Out</button>
-          </li>
-        )}
-      </ul>
-    </nav>
+          {hasUser && (
+            <li className="nav-link">
+              <Link to="/profile">
+                <button>Profile</button>
+              </Link>
+            </li>
+          )}
+          {!hasUser && (
+            <li className="nav-link">
+              <Link to="/register">
+                <button>Sign Up</button>
+              </Link>
+            </li>
+          )}
+          {!hasUser && (
+            <li className="nav-link">
+              <Link to="/login">
+                <button>Sign In</button>
+              </Link>
+            </li>
+          )}
+          {hasUser && (
+            <li className="nav-link">
+              <button onClick={signOut}>Sign Out</button>
+            </li>
+          )}
+        </ul>
+      </nav>
+      <hr />
+    </>
   );
 };
 
