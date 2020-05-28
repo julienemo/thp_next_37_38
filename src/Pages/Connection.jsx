@@ -32,7 +32,9 @@ const Connection = () => {
   const onFinish = (values) => {
     LetUserIn("CONNECT", values)
       .then((response) => {
+        console.log(response);
         if (response.error) {
+          console.log(response.message[0].messages[0].message);
           setError(response.message[0].messages[0].message);
         } else {
           return response;
@@ -40,9 +42,9 @@ const Connection = () => {
         return response;
       })
       .then((response) => {
-        dispatch(setUser(response.jwt, response.user.id));
         StoreUser(response);
         GoToProfile(history);
+        dispatch(setUser(response.jwt, response.user.id));
       })
       .catch((error) => {
         setError(error);

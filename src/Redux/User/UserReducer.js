@@ -16,19 +16,22 @@ initial.hasUser = initial.token ? true : false;
 const UserReducer = (state = initial, action) => {
   switch (action.type) {
     case SET_USER:
+      console.log("in set user reducer");
+      console.log(action.id);
       return {
         token: action.token,
         currentUser: action.id,
         hasUser: true,
       };
     case CLEAR_USER:
+      console.log("in clear user reducer");
       return {
         token: null,
         currentUser: null,
         hasUser: false,
       };
     default:
-      return initial;
+      return state;
   }
 };
 

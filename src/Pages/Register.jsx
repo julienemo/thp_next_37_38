@@ -39,9 +39,9 @@ const Register = () => {
         return response;
       })
       .then((response) => {
-        dispatch(setUser(response.jwt, response.user.id));
         StoreUser(response);
         GoToProfile(history);
+        dispatch(setUser(response.jwt, response.user.id));
       })
       .catch((error) => {
         dispatch(loadError(error));

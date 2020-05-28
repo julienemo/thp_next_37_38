@@ -51,7 +51,7 @@ demo (here)[https://juliet-social.now.sh/]
 #### TODO
 
 1. correct the link doesn't work issue
-2. to register or connect, needs to refresh page ??wtf?
+2. clean all the console.log
 ---
 
 #### Discoveries
