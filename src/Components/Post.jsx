@@ -10,7 +10,7 @@ import { DeletePost } from "../API";
 const Post = (post) => {
   const hasUser = useSelector((state) => state.user.hasUser);
   const token = useSelector((state) => state.user.token);
-  const userId = useSelector((state) => state.user.currentUser);
+  const userId = useSelector((state) => state.user.id);
   const dispatch = useDispatch();
 
   const deleteCurrentPost = (id) => {
@@ -38,7 +38,7 @@ const Post = (post) => {
           <div className="post-detail">
             {objectPost.user && (
               <p>
-                <Link to={`/user/${objectPost.user.id}`}>
+                <Link exact to={`/user/${objectPost.user.username}`}>
                   <strong>{objectPost.user.username}</strong>
                 </Link>{" "}
                 said on {date}:

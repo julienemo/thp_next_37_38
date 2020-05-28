@@ -41,7 +41,9 @@ const Register = () => {
       .then((response) => {
         StoreUser(response);
         GoToProfile(history);
-        dispatch(setUser(response.jwt, response.user.id));
+        dispatch(
+          setUser(response.jwt, response.user.username, response.user.id)
+        );
       })
       .catch((error) => {
         dispatch(loadError(error));

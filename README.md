@@ -4,7 +4,13 @@ Julie Kwok, 20200526-28
 
 Luca Montaigut (@LazyRabbit)[https://github.com/luca-montaigut] provided great help in understanding when to use Redux and generously share his propositions.
 
+Many thanks to Matthieu and Mathis, who have eagle eyes.
+
 demo (here)[https://juliet-social.now.sh/]
+
+Disclosure:
+
+usernames are not sluggified and I don't plan to.
 ---
 
 #### Testing accounts
@@ -36,6 +42,7 @@ demo (here)[https://juliet-social.now.sh/]
 - Profile: can see profile or modify, sees update info right away
 - Logout: logs out and redirects to sign-in page
 - SignIn/SignUp: will redirect to profile
+- List on Home or any Profile: click on author name to see profile
 
 **for "ME"**
 - post: can delete own, page doesn't reload
@@ -48,10 +55,6 @@ demo (here)[https://juliet-social.now.sh/]
 1. user authentication info: jwt, user ID, whether there is one present
 2. list of post, in Home, in Profile, in profile of any user
 
-#### TODO
-
-1. correct the link doesn't work issue
-2. clean all the console.log
 ---
 
 #### Discoveries
@@ -60,3 +63,5 @@ demo (here)[https://juliet-social.now.sh/]
 2. `useAnything()` can work and only work when it's in the root of a functional component
 3. in a `fetch`, you put the headers in `headerS` instead of `header`
 4. Redux is only good if there is a high-level "state/context" that needs to be accessible anywhere. If a state is local, forget redux.
+5. its worth considering the structure of an API before hand (do I want to use the name as a slug? What kind of error do I want)
+6. Spelling is so, so important

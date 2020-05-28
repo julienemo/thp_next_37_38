@@ -8,7 +8,8 @@ import { Form, Input, Button } from "antd";
 import Post from "../Components/Post";
 
 import { GetPostList, GetProfile, ModifyProfile } from "../API";
-import { setList, loadError, clearUser } from "../Redux";
+import { setList, loadError, updateUser } from "../Redux";
+import { ChangeUser } from "../Tools";
 
 const layout = {
   labelCol: { span: 8 },
@@ -19,17 +20,16 @@ const tailLayout = {
 };
 
 const Profile = () => {
-  const currentUser = useSelector((state) => state.user.currentUser);
-  console.log("current user " + currentUser);
+  const currentUser = useSelector((state) => state.user.username);
   const token = useSelector((state) => state.user.token);
   const list = useSelector((state) => state.post.list);
   const error = useSelector((state) => state.post.error);
+  const userId = useSelector((state) => state.user.id);
   const dispatch = useDispatch();
 
   const { userSlug } = useParams();
-  console.log("userslug " + userSlug);
-  const userId = userSlug === undefined ? currentUser : Number(userSlug);
-  const isMe = userId === currentUser;
+  const username = userSlug === undefined ? currentUser : userSlug;
+  const isMe = username === currentUser;
 
   const [profile, setProfile] = useState(null);
 
@@ -49,7 +49,7 @@ const Profile = () => {
         dispatch(loadError(error));
       });
 
-    GetPostList(userId)
+    GetPostList(username)
       .then((response) => {
         if (response.error) {
           dispatch(loadError(response.message));
@@ -60,20 +60,20 @@ const Profile = () => {
       .catch((error) => {
         dispatch(loadError(error));
       });
-  }, []);
+  }, [username, userId, token, dispatch]);
 
   const onFinish = (values) => {
     if (!values.username) {
       values = { description: values.description };
     }
-    console.log(values);
     ModifyProfile(userId, token, values)
       .then((response) => {
-        console.log(response);
         if (response.error) {
           dispatch(loadError(response.message));
         } else {
           setProfile(response);
+          ChangeUser(response.username);
+          dispatch(updateUser(response.username));
         }
       })
       .catch((error) => {

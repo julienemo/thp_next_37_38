@@ -19,10 +19,10 @@ export const LetUserIn = (typeOfAction, values) => {
   }).then((response) => response.json());
 };
 
-export const GetPostList = (id = null) => {
+export const GetPostList = (username = null) => {
   const baseURL =
     "https://api-minireseausocial.mathis-dyk.fr/posts?_limit=20&_sort=created_at:desc";
-  const userPart = id ? `&user.id=${id}` : "";
+  const userPart = username ? `&user.username=${username}` : "";
   const finalURL = baseURL + userPart;
   return fetch(finalURL).then((response) => response.json());
 };

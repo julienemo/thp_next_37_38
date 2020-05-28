@@ -6,7 +6,7 @@ import { addPost, loadError } from "../Redux";
 import { CreatePost } from "../API";
 
 const NewPost = () => {
-  const userId = useSelector((state) => state.user.currentUser);
+  const userId = useSelector((state) => state.user.id);
   const token = useSelector((state) => state.user.token);
   const error = useSelector((state) => state.post.error);
 
