@@ -1,27 +1,37 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import toLike from "../Images/toLike.svg"
-import { Link} from "react-router-dom"
+import { useSelector, useDispatch } from "react-redux";
+import toLike from "../Images/toLike.svg";
+import { Link } from "react-router-dom";
 import Moment from "moment";
+
+import { deletePost, loadError } from "../Redux";
+import { DeletePost } from "../API";
+
 const Post = (post) => {
-  const hasUser = useSelector((state) => state.user.hasUser)
+  const hasUser = useSelector((state) => state.user.hasUser);
   const token = useSelector((state) => state.user.token);
   const userId = useSelector((state) => state.user.currentUser);
-  const deletePost = (id) => {
-    console.log('in delete post')
-    fetch(`https://api-minireseausocial.mathis-dyk.fr/posts/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-  }
-  const display = () => { 
-    const objectPost = post.post
-    const date = Moment(objectPost.created_at).format("YYYY-MM-DD")
-    const postOwner = objectPost.user?objectPost.user.id: null; 
-    const isMine = postOwner == userId;
+  const dispatch = useDispatch();
+
+  const deleteCurrentPost = (id) => {
+    DeletePost(id, token)
+      .then((response) => {
+        if (response.error) {
+          dispatch(loadError(response.message));
+        } else {
+          dispatch(deletePost(response.id));
+        }
+      })
+      .catch((error) => {
+        dispatch(loadError(error));
+      });
+  };
+  const display = () => {
+    const objectPost = post.post;
+    const date = Moment(objectPost.created_at).format("YYYY-MM-DD");
+    const postOwner = objectPost.user ? objectPost.user.id : null;
+    const isMine = postOwner === userId;
+
     return (
       <div className="post-preview">
         {hasUser && (
@@ -46,7 +56,7 @@ const Post = (post) => {
             <p>
               <button
                 onClick={() => {
-                  deletePost(objectPost.id);
+                  deleteCurrentPost(objectPost.id);
                 }}
               >
                 Delete
@@ -56,12 +66,9 @@ const Post = (post) => {
         )}
       </div>
     );
-  }
+  };
 
-  return (
-    <>
-      {post.post.text && display()}
-    </>)
-}
+  return <>{post.post.text && display()}</>;
+};
 
-export default Post
+export default Post;

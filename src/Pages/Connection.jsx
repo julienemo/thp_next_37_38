@@ -37,6 +37,7 @@ const Connection = () => {
         } else {
           return response;
         }
+        return response;
       })
       .then((response) => {
         dispatch(setUser(response.jwt, response.user.id));
@@ -44,7 +45,7 @@ const Connection = () => {
         GoToProfile(history);
       })
       .catch((error) => {
-        console.log(error);
+        setError(error);
       });
   };
 

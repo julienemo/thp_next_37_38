@@ -2,11 +2,11 @@ import { createStore, applyMiddleware, combineReducers, compose } from "redux";
 import thunkMiddleware from "redux-thunk";
 
 import UserReducer from "./User/UserReducer";
-import HomePostReducer from "./HomePost/HomePostReducer";
+import PostReducer from "./Post/PostReducer";
 
 const rootReducer = combineReducers({
   user: UserReducer,
-  HomePost: HomePostReducer,
+  post: PostReducer,
 });
 
 const Store = createStore(

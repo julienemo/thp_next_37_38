@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setUser } from "../Redux";
+import { setUser, loadError } from "../Redux";
 import { Form, Input, Button } from "antd";
 
 import { GoToProfile } from "../Routes/Redirect";
@@ -36,6 +36,7 @@ const Register = () => {
         } else {
           return response;
         }
+        return response;
       })
       .then((response) => {
         dispatch(setUser(response.jwt, response.user.id));
@@ -43,7 +44,7 @@ const Register = () => {
         GoToProfile(history);
       })
       .catch((error) => {
-        console.log(error);
+        dispatch(loadError(error));
       });
   };
 

@@ -2,6 +2,9 @@
 
 Julie Kwok, 20200526-28
 
+Luca Montaigut (@LazyRabbit)[https://github.com/luca-montaigut] provided great help in understanding when to use Redux and generously share his propositions.
+
+demo (here)[https://juliet-social.now.sh/]
 ---
 
 #### Testing accounts
@@ -35,17 +38,20 @@ Julie Kwok, 20200526-28
 - SignIn/SignUp: will redirect to profile
 
 **for "ME"**
-- post: can delete own
-- profile: can update own
+- post: can delete own, page doesn't reload
+- profile: can update own, page doesn't reload
 
 ---
 
+#### What's in redux
+
+1. user authentication info: jwt, user ID, whether there is one present
+2. list of post, in Home, in Profile, in profile of any user
+
 #### TODO
 
-1. create post list component and pass to prop onClicks (create and delete)
-2. get post list out of redux
-3. correct the link doesn't work issue
-
+1. correct the link doesn't work issue
+2. to register or connect, needs to refresh page ??wtf?
 ---
 
 #### Discoveries

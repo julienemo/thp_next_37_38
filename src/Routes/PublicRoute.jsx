@@ -3,7 +3,6 @@ import { Redirect, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const PublicRoute = ({ component: Component, ...rest }) => {
-  console.log("in Public route");
   const hasUser = useSelector((state) => state.user.hasUser);
 
   return (

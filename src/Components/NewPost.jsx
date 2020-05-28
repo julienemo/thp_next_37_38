@@ -1,15 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Form, Input, Button } from "antd";
 
-import { changeList } from "../Redux";
+import { addPost, loadError } from "../Redux";
 import { CreatePost } from "../API";
 
 const NewPost = () => {
-  console.log("in new post");
-  const [error, setError] = useState(null);
   const userId = useSelector((state) => state.user.currentUser);
   const token = useSelector((state) => state.user.token);
+  const error = useSelector((state) => state.post.error);
 
   const dispatch = useDispatch();
 
@@ -17,15 +16,13 @@ const NewPost = () => {
     CreatePost(userId, token, values)
       .then((response) => {
         if (response.error) {
-          setError(response.message);
+          loadError(response.message);
         } else {
-          console.log(response);
-          dispatch(changeList(values));
+          dispatch(addPost(response));
         }
       })
       .catch((error) => {
-        console.log(error);
-        setError(error);
+        loadError(error);
       });
   };
 
@@ -54,7 +51,7 @@ const NewPost = () => {
 
         <Form.Item>
           <Button type="primary" htmlType="submit">
-            Let'em'all know
+            Let'em know
           </Button>
         </Form.Item>
       </Form>

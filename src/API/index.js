@@ -20,7 +20,6 @@ export const LetUserIn = (typeOfAction, values) => {
 };
 
 export const GetPostList = (id = null) => {
-  console.log("in get list");
   const baseURL =
     "https://api-minireseausocial.mathis-dyk.fr/posts?_limit=20&_sort=created_at:desc";
   const userPart = id ? `&user.id=${id}` : "";
@@ -52,7 +51,6 @@ export const ModifyProfile = (id, token, values) => {
 };
 
 export const CreatePost = (id, token, values) => {
-  console.log("in create post");
   const baseURL = "https://api-minireseausocial.mathis-dyk.fr/posts";
   return fetch(baseURL, {
     method: "POST",
@@ -61,5 +59,16 @@ export const CreatePost = (id, token, values) => {
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({ ...values, user: id }),
+  }).then((response) => response.json());
+};
+
+export const DeletePost = (postId, token) => {
+  const baseURL = `https://api-minireseausocial.mathis-dyk.fr/posts`;
+  return fetch(`${baseURL}/${postId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
   }).then((response) => response.json());
 };
