@@ -22,33 +22,33 @@ const Navbar = () => {
     <>
       <nav>
         <div className="nav-logo nav-link">
-          <Link exact to="/">
+          <Link to="/">
             <p>Julie Social Network</p>
           </Link>
         </div>
         <ul className="nav-link-zone">
           <li className="nav-link">
-            <Link exact to="/">
+            <Link to="/">
               <button>Home</button>
             </Link>
           </li>
           {hasUser && (
             <li className="nav-link">
-              <Link exact to="/profile">
+              <Link to="/profile">
                 <button>Profile</button>
               </Link>
             </li>
           )}
           {!hasUser && (
             <li className="nav-link">
-              <Link exact to="/register">
+              <Link to="/register">
                 <button>Sign Up</button>
               </Link>
             </li>
           )}
           {!hasUser && (
             <li className="nav-link">
-              <Link exact to="/login">
+              <Link to="/login">
                 <button>Sign In</button>
               </Link>
             </li>
